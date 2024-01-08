@@ -1,12 +1,11 @@
-import {Home} from './routes/home';
+import { Home } from "./routes/home";
 
 const App = () => {
-
   return (
     <>
-    <Home />
+      <Home />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

@@ -1,6 +1,6 @@
-Create each question component - be verbose for now and then clean it up afterwards
-Render out questions[0] - and follow the flowchart
-If questions[0] = yes -> questions[1] -> answer question (note both score is zero) -> questions[2]
-If questions[0] = no -> questions[2]
-Questions[2] -> Questions[3]-> Questions[4] -> questions[5] -> all the way to questions[9]
-questions[9] -> interface next different = max score / outcome
+Clean up the CSS
+Add ability to go back and change answers and update state accordingly
+Remove console.logs
+Fix linting issues
+Write tests
+Only update score if the answer is unique - not been answered
