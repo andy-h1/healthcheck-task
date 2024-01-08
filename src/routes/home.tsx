@@ -1,43 +1,50 @@
 import { useEffect, useState } from "react";
-import data from "../data/questionaire.json";
+import JSONData from "../data/questionaire.json";
 
-interface QuestionsType {
-  id: string;
-  question_text: string;
-  answers: Array<Answers>;
-  next: Array<NextQuestions>;
+interface QuestionaireType {
+    questions: Array<QuestionType>,
+    outcomes: Array<OutcomeType>
 }
 
-interface Answers {
+interface QuestionType {
+  id: string;
+  question_text: string;
+  answers: Array<Answer>;
+  next: Array<NextStep>;
+}
+
+interface Answer {
   id: string;
   label: string;
   score: number;
 }
 
-interface NextQuestions {
+interface NextStep {
   answered?: string;
   next_question?: string;
   max_score?: number;
   outcome?: string;
 }
 
-interface OutcomesType {
+interface OutcomeType {
     id: string,
     text: string,
     show_booking_button: boolean
 }
 
+const data = JSONData as QuestionaireType
+
 export const Home = () => {
-  const { questions, outcomes } = data;
-  const [currentQuestionId, setCurrentQuestionId] = useState(questions[0].id);
-  const [currentScore, setCurrentScore] = useState(0);
-  const [outcome, setOutcome] = useState<OutcomesType | undefined>();
+  const { questions, outcomes } = data
+  const [currentQuestionId, setCurrentQuestionId] = useState<string>(questions[0].id);
+  const [currentScore, setCurrentScore] = useState<number>(0);
+  const [outcome, setOutcome] = useState<OutcomeType | undefined>();
 
   console.log(currentQuestionId);
   console.log(questions.length);
   console.log(currentScore);
 
-  const currentQuestion: QuestionsType | undefined = questions.find(
+  const currentQuestion = questions.find(
     (question) => question.id === currentQuestionId,
   );
 
@@ -62,14 +69,20 @@ export const Home = () => {
     }
   };
 
-  const filteredMaxScoreOutcomes = questions.reduce((accumulator: NextQuestions[], question) => {
-    const filteredQuestions = question.next.filter(nextItem => nextItem.hasOwnProperty('max_score')|| nextItem.hasOwnProperty('outcome'));
-    return accumulator.concat(filteredQuestions);
-}, []);
+  // Assumption that the last question in JSON will always contain max_score and outcome:
+  const lastQuestionInArray = questions[questions.length - 1].next;
+  const filteredMaxScoreOutcomes = lastQuestionInArray.filter(nextItem => nextItem.hasOwnProperty('max_score')|| nextItem.hasOwnProperty('outcome'));
+
+
+// If not then use reduce and filter to go through all the questions:
+//   const filteredMaxScoreOutcomes = questions.reduce((accumulator: NextStep[], question) => {
+//     const filteredQuestions = question.next.filter(nextItem => nextItem.hasOwnProperty('max_score')|| nextItem.hasOwnProperty('outcome'));
+//     return accumulator.concat(filteredQuestions);
+// }, []);
+
 
   useEffect(() => {
     if (allQuestionsAnswered) {
-        console.log('useEffect called');
         const relevantOutcome = filteredMaxScoreOutcomes.find(outcome => !outcome.max_score || currentScore <= outcome.max_score)
         console.log({relevantOutcome});
     if (relevantOutcome) {
