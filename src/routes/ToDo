@@ -1,7 +1,0 @@
-Clean up the CSS
-Add ability to go back and change answers and update state accordingly
-Start Again button
-Remove console.logs
-Fix linting issues
-Write tests
-Only update score if the answer is unique - not been answered
