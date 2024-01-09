@@ -26,7 +26,7 @@ const initialState: State = {
   history: [],
   selectedAnswerId: null,
   isAnswerSelected: false,
-  questions: [],
+  questions: []
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -36,35 +36,35 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         currentQuestionId: action.payload,
         currentQuestion:
-          state.questions.find((q) => q.id === action.payload) || null,
+          state.questions.find((q) => q.id === action.payload) || null
       };
     case "SET_SCORE":
       return {
         ...state,
-        currentScore: action.payload,
+        currentScore: action.payload
       };
     case "SET_HISTORY":
       return {
         ...state,
-        history: action.payload,
+        history: action.payload
       };
     case "UPDATE_HISTORY":
       return {
         ...state,
-        history: [...state.history, action.payload],
+        history: [...state.history, action.payload]
       };
     case "SELECT_ANSWER":
       return {
         ...state,
         selectedAnswerId: action.payload,
-        isAnswerSelected: true,
+        isAnswerSelected: true
       };
     case "RESET":
       return {
         ...initialState,
         questions: state.questions,
         currentQuestionId: state.questions[0]?.id || "",
-        currentQuestion: state.questions[0] || null,
+        currentQuestion: state.questions[0] || null
       };
     default:
       return state;
@@ -73,13 +73,13 @@ const reducer = (state: State, action: Action): State => {
 
 const useQuestionNavigation = (
   questions: QuestionType[],
-  initialQuestionId: string,
+  initialQuestionId: string
 ) => {
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     questions,
     currentQuestion: questions.find((q) => q.id === initialQuestionId) || null,
-    currentQuestionId: initialQuestionId,
+    currentQuestionId: initialQuestionId
   });
 
   const handleSelectAnswerClick = (answerId: string) => {
@@ -93,13 +93,13 @@ const useQuestionNavigation = (
       state.currentQuestion
     ) {
       const selectedAnswer = state.currentQuestion.answers.find(
-        (answer) => answer.id === state.selectedAnswerId,
+        (answer) => answer.id === state.selectedAnswerId
       );
       const selectedAnswerScore = selectedAnswer ? selectedAnswer.score : 0;
 
       dispatch({
         type: "SET_SCORE",
-        payload: state.currentScore + selectedAnswerScore,
+        payload: state.currentScore + selectedAnswerScore
       });
 
       if (
@@ -110,20 +110,20 @@ const useQuestionNavigation = (
           type: "UPDATE_HISTORY",
           payload: {
             questionId: state.currentQuestionId,
-            score: selectedAnswerScore,
-          },
+            score: selectedAnswerScore
+          }
         });
       }
 
       const nextStep =
         state.currentQuestion.next.find(
-          (step) => step.answered === state.selectedAnswerId,
+          (step) => step.answered === state.selectedAnswerId
         ) || state.currentQuestion.next.find((step) => step.next_question);
 
       if (nextStep && nextStep.next_question) {
         dispatch({
           type: "SET_CURRENT_QUESTION",
-          payload: nextStep.next_question,
+          payload: nextStep.next_question
         });
       }
     }
@@ -136,16 +136,16 @@ const useQuestionNavigation = (
 
       dispatch({
         type: "SET_CURRENT_QUESTION",
-        payload: previousQuestion.questionId,
+        payload: previousQuestion.questionId
       });
       const newScore = newHistory.reduce((acc, item) => acc + item.score, 0);
       dispatch({
         type: "SET_SCORE",
-        payload: newScore,
+        payload: newScore
       });
       dispatch({
         type: "SET_HISTORY",
-        payload: newHistory,
+        payload: newHistory
       });
     } else if (state.history.length === 1) {
       dispatch({ type: "RESET" });
@@ -161,7 +161,7 @@ const useQuestionNavigation = (
     handleSelectAnswerClick,
     handleNextClick,
     handleBackClick,
-    handleRestart,
+    handleRestart
   };
 };
 

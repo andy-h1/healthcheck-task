@@ -19,14 +19,12 @@ module.exports = {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": [ "error" ],
     "no-shadow": "off",
-    // "@typescript-eslint/no-shadow": [ "error" ],
-    // "@typescript-eslint/explicit-function-return-type": [ "error", { "allowExpressions": true } ],
     "max-len": [ "warn", { "code": 200, "ignoreComments": true, "ignoreUrls": true } ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-prototype-builtins": "off",
-    "prettier/prettier": [ "error", { "endOfLine": "auto" } ]
+    "prettier/prettier": [ "error", { "endOfLine": "off" } ]
   },
 }

@@ -7,7 +7,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({
   findCurrentQuestionIndex,
-  onBack,
+  onBack
 }) => {
   return (
     <span className="mb-4 flex items-center">

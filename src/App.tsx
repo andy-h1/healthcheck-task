@@ -7,7 +7,7 @@ import Summary from "./components/Summary";
 import Questionaire from "./components/Questionaire";
 import Header from "./components/Header";
 
-const App = () => {
+const App = (): JSX.Element => {
   const data = JSONData as QuestionaireType;
   const { questions, outcomes } = data;
   const initialQuestionId = questions[0].id;
@@ -21,17 +21,17 @@ const App = () => {
     handleBackClick,
     handleNextClick,
     handleSelectAnswerClick,
-    handleRestart,
+    handleRestart
   } = useQuestionNavigation(questions, initialQuestionId);
 
   const outcome = useCalculateOutcome(questions, currentScore, outcomes);
 
   const findCurrentQuestionIndex = questions.findIndex(
-    (q) => q.id === currentQuestionId,
+    (q) => q.id === currentQuestionId
   );
 
   const progress = Math.round(
-    (findCurrentQuestionIndex / (questions.length - 1)) * 100,
+    (findCurrentQuestionIndex / (questions.length - 1)) * 100
   );
 
   const allQuestionsAnswered =

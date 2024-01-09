@@ -14,7 +14,7 @@ const Questionaire: React.FC<QuestionaireProps> = ({
   selectedAnswerId,
   isAnswerSelected,
   onAnswerSelect,
-  onNext,
+  onNext
 }) => {
   return (
     <div className="flex h-2/3 w-full flex-col items-center justify-between px-3 ">
@@ -42,7 +42,7 @@ const Questionaire: React.FC<QuestionaireProps> = ({
       <button
         onClick={onNext}
         disabled={!isAnswerSelected}
-        className={`items-center5/ my-4 inline-flex w-full justify-center  ${
+        className={`my-4 inline-flex w-full items-center justify-center  ${
           isAnswerSelected ? "bg-teal-500 hover:bg-teal-700" : "bg-gray-300"
         } rounded px-4 py-2 font-bold text-white`}
       >
