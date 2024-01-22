@@ -1,7 +1,7 @@
-import { QuestionType } from "../types/questionaire.types";
+import { QuestionType } from "../types/questionaire";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
 
-interface QuestionaireProps {
+type QuestionaireProps = {
   question: QuestionType;
   selectedAnswerId: string | null;
   isAnswerSelected: boolean;
@@ -9,13 +9,13 @@ interface QuestionaireProps {
   onNext: () => void;
 }
 
-const Questionaire: React.FC<QuestionaireProps> = ({
+const Questionaire = ({
   question,
   selectedAnswerId,
   isAnswerSelected,
   onAnswerSelect,
   onNext
-}) => {
+}: QuestionaireProps) => {
   return (
     <div className="flex h-2/3 w-full flex-col items-center justify-between px-3 ">
       <div>

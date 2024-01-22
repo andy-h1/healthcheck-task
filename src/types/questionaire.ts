@@ -1,29 +1,28 @@
-export interface QuestionaireType {
+export type QuestionaireType = {
   questions: Array<QuestionType>;
   outcomes: Array<OutcomeType>;
 }
-
-export interface QuestionType {
+export type QuestionType = {
   id: string;
   question_text: string;
   answers: Array<Answer>;
   next: Array<NextStep>;
 }
 
-export interface Answer {
+export type Answer = {
   id: string;
   label: string;
   score: number;
 }
 
-export interface NextStep {
+export type NextStep = {
   answered?: string;
   next_question?: string;
   max_score?: number;
   outcome?: string;
 }
 
-export interface OutcomeType {
+export type OutcomeType = {
   id: string;
   text: string;
   show_booking_button: boolean;

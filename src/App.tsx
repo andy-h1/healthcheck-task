@@ -1,13 +1,14 @@
 import JSONData from "./data/questionaire.json";
+// fetch from hard-coded file - ReactQuery  
 import useQuestionNavigation from "./hooks/useQuestionNavigation";
 import useCalculateOutcome from "./hooks/useCalculateOutcome";
-import { QuestionaireType } from "./types/questionaire.types";
+import { QuestionaireType } from "./types/questionaire";
 import ProgressBar from "./components/ProgressBar";
 import Summary from "./components/Summary";
 import Questionaire from "./components/Questionaire";
 import Header from "./components/Header";
 
-const App = (): JSX.Element => {
+const App = (): React.ReactNode => {
   const data = JSONData as QuestionaireType;
   const { questions, outcomes } = data;
   const initialQuestionId = questions[0].id;
@@ -23,6 +24,9 @@ const App = (): JSX.Element => {
     handleSelectAnswerClick,
     handleRestart
   } = useQuestionNavigation(questions, initialQuestionId);
+
+  // Wrap context provider around parent component - global state
+  // Explain what a custom hook is
 
   const outcome = useCalculateOutcome(questions, currentScore, outcomes);
 

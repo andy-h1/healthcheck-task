@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { QuestionType, OutcomeType } from "../types/questionaire.types";
+import { QuestionType, OutcomeType } from "../types/questionaire";
 
 const useCalculateOutcome = (
-  questions: QuestionType[],
+  questions: Array<QuestionType>,
   currentScore: number,
-  outcomes: OutcomeType[]
+  outcomes: Array<OutcomeType>
 ) => {
   const [outcome, setOutcome] = useState<OutcomeType | null>(null);
 

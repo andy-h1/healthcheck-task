@@ -1,14 +1,14 @@
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-interface HeaderProps {
+type HeaderProps = {
   findCurrentQuestionIndex: number;
   onBack: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
+const Header = ({
   findCurrentQuestionIndex,
   onBack
-}) => {
+} : HeaderProps) => {
   return (
     <span className="mb-4 flex items-center">
       {findCurrentQuestionIndex > 0 && (

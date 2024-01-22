@@ -1,4 +1,4 @@
-import { OutcomeType } from "../types/questionaire.types";
+import { OutcomeType } from "../types/questionaire";
 
 interface SummaryProps {
   outcome: OutcomeType;

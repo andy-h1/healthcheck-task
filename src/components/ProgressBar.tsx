@@ -1,8 +1,8 @@
-interface ProgressBarProps {
+type ProgressBarProps = {
   progress: number;
 }
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
+const ProgressBar = ({ progress }: ProgressBarProps) => {
   return (
     <div className="overflow-hidden rounded-xl bg-gray-200">
       <div className="relative flex h-0.5 items-center justify-center">

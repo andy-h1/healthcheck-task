@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { QuestionType } from "../types/questionaire.types";
+import { QuestionType } from "../types/questionaire";
 
 type State = {
   currentQuestion: QuestionType | null;
@@ -8,7 +8,7 @@ type State = {
   history: { questionId: string; score: number }[];
   selectedAnswerId: string | null;
   isAnswerSelected: boolean;
-  questions: QuestionType[];
+  questions:Array<QuestionType>;
 };
 
 type Action =
@@ -134,6 +134,7 @@ const useQuestionNavigation = (
       const newHistory = state.history.slice(0, -1);
       const previousQuestion = newHistory[newHistory.length - 1];
 
+      // move this into it's own action
       dispatch({
         type: "SET_CURRENT_QUESTION",
         payload: previousQuestion.questionId
