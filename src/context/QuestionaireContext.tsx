@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { QuestionaireType } from "../types/questionaire";
 
-const QuestionaireContext = createContext <QuestionaireType | null>(null);
+export const QuestionaireContext = createContext <QuestionaireType | null>(null);
 
 export const QuestionaireProvider = ({ children }: { children: React.ReactNode }) => {
     const [heartburnData, setHeartBurnData] = useState<QuestionaireType | null>(null);
