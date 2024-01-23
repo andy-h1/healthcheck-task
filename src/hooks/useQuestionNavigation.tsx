@@ -12,11 +12,10 @@ type State = {
 };
 
 type Action =
-  | { type: "SET_CURRENT_QUESTION"; payload: string }
-  | { type: "SET_SCORE"; payload: number }
-  | { type: "SET_HISTORY"; payload: { questionId: string; score: number }[] }
-  | { type: "UPDATE_HISTORY"; payload: { questionId: string; score: number } }
-  | { type: "SELECT_ANSWER"; payload: string | null }
+  | { type: "SET_CURRENT_QUESTION"; questionId: string }
+  | { type: "SELECT_ANSWER"; questionId: string | null }
+  | { type: "HANDLE_NEXT"; selectedAnswerId: string}
+  | { type: "HANDLE_BACK"}
   | { type: "RESET" };
 
 const initialState: State = {
@@ -34,31 +33,68 @@ const reducer = (state: State, action: Action): State => {
     case "SET_CURRENT_QUESTION":
       return {
         ...state,
-        currentQuestionId: action.payload,
+        currentQuestionId: action.questionId,
         currentQuestion:
-          state.questions.find((q) => q.id === action.payload) || null
-      };
-    case "SET_SCORE":
-      return {
-        ...state,
-        currentScore: action.payload
-      };
-    case "SET_HISTORY":
-      return {
-        ...state,
-        history: action.payload
-      };
-    case "UPDATE_HISTORY":
-      return {
-        ...state,
-        history: [...state.history, action.payload]
+          state.questions.find((q) => q.id === action.questionId) || null
       };
     case "SELECT_ANSWER":
       return {
         ...state,
-        selectedAnswerId: action.payload,
+        selectedAnswerId: action.questionId,
         isAnswerSelected: true
       };
+    case "HANDLE_NEXT":
+      // 
+      const selectedAnswer = state.currentQuestion?.answers.find(
+        (answer) => answer.id === action.selectedAnswerId
+      );
+      const scoreIncrement = selectedAnswer ? selectedAnswer.score : 0;
+      const newScore = state.currentScore + scoreIncrement;
+      const nextQuestionId = state.currentQuestion?.next.find(
+        (step) => step.answered === action.selectedAnswerId
+      )?.next_question || state.currentQuestion?.next.find((step) => step.next_question)?.next_question;
+      const updatedHistory = state.history.some((entry) => entry.questionId === state.currentQuestionId)
+      ? state.history.map((entry) => 
+          entry.questionId === state.currentQuestionId ? { ...entry, score: scoreIncrement } : entry)
+      : [...state.history, { questionId: state.currentQuestionId, score: scoreIncrement }];
+
+      return {
+        ...state,
+        currentScore: newScore,
+        history: updatedHistory,
+        currentQuestionId: nextQuestionId || "",
+        currentQuestion: state.questions.find((q) => q.id === nextQuestionId) || null,
+        selectedAnswerId: null,
+        isAnswerSelected: false,
+      };
+    case "HANDLE_BACK":
+      if (state.history.length > 1) {
+        const previousHistoryEntry = state.history[state.history.length - 1];
+        const previousQuestionId = previousHistoryEntry.questionId;
+        const newHistory = state.history.slice(0, -1);
+        const newScore = state.currentScore - previousHistoryEntry.score;
+    
+        return {
+          ...state,
+          currentQuestionId: previousQuestionId,
+          currentQuestion: state.questions.find(q => q.id === previousQuestionId) || null,
+          currentScore: newScore,
+          history: newHistory,
+          selectedAnswerId: null,
+          isAnswerSelected: false,
+        };
+      } else if (state.history.length === 1) {
+        const firstQuestionId = state.questions[0]?.id || "";
+        const firstQuestion = state.questions.find(q => q.id === firstQuestionId);
+    
+        return {
+          ...initialState,
+          questions: state.questions,
+          currentQuestionId: firstQuestionId,
+          currentQuestion: firstQuestion || null,
+        };
+      }
+      return state;    
     case "RESET":
       return {
         ...initialState,
@@ -83,79 +119,24 @@ const useQuestionNavigation = (
   });
 
   const handleSelectAnswerClick = (answerId: string) => {
-    dispatch({ type: "SELECT_ANSWER", payload: answerId });
+    dispatch({ type: "SELECT_ANSWER", questionId: answerId });
   };
 
   const handleNextClick = () => {
-    if (
-      state.isAnswerSelected &&
-      state.selectedAnswerId &&
-      state.currentQuestion
-    ) {
-      const selectedAnswer = state.currentQuestion.answers.find(
-        (answer) => answer.id === state.selectedAnswerId
-      );
-      const selectedAnswerScore = selectedAnswer ? selectedAnswer.score : 0;
-
-      dispatch({
-        type: "SET_SCORE",
-        payload: state.currentScore + selectedAnswerScore
-      });
-
-      if (
-        state.history[state.history.length - 1]?.questionId !==
-        state.currentQuestionId
-      ) {
-        dispatch({
-          type: "UPDATE_HISTORY",
-          payload: {
-            questionId: state.currentQuestionId,
-            score: selectedAnswerScore
-          }
-        });
-      }
-
-      const nextStep =
-        state.currentQuestion.next.find(
-          (step) => step.answered === state.selectedAnswerId
-        ) || state.currentQuestion.next.find((step) => step.next_question);
-
-      if (nextStep && nextStep.next_question) {
-        dispatch({
-          type: "SET_CURRENT_QUESTION",
-          payload: nextStep.next_question
-        });
-      }
+    if (state.isAnswerSelected && state.selectedAnswerId) {
+      dispatch({ type: "HANDLE_NEXT", selectedAnswerId: state.selectedAnswerId });
     }
   };
 
   const handleBackClick = () => {
-    if (state.history.length > 1) {
-      const newHistory = state.history.slice(0, -1);
-      const previousQuestion = newHistory[newHistory.length - 1];
-
-      // move this into it's own action
-      dispatch({
-        type: "SET_CURRENT_QUESTION",
-        payload: previousQuestion.questionId
-      });
-      const newScore = newHistory.reduce((acc, item) => acc + item.score, 0);
-      dispatch({
-        type: "SET_SCORE",
-        payload: newScore
-      });
-      dispatch({
-        type: "SET_HISTORY",
-        payload: newHistory
-      });
-    } else if (state.history.length === 1) {
-      dispatch({ type: "RESET" });
-    }
+    dispatch({ type: "HANDLE_BACK" });
   };
 
   const handleRestart = () => {
     dispatch({ type: "RESET" });
   };
+
+  console.log(state.currentQuestionId, state.currentScore, state.selectedAnswerId, state.history)
 
   return {
     ...state,
