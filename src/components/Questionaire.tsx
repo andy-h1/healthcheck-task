@@ -3,7 +3,7 @@ import { ChevronRightIcon } from "@heroicons/react/16/solid";
 
 type QuestionaireProps = {
   question: QuestionType;
-  selectedAnswerId: string | null;
+  selectedAnswerId?: string;
   isAnswerSelected: boolean;
   onAnswerSelect: (answerId: string) => void;
   onNext: () => void;

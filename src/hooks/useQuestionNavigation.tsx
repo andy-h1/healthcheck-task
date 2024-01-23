@@ -2,40 +2,39 @@ import { useReducer } from "react";
 import { QuestionType } from "../types/questionaire";
 
 type State = {
-  currentQuestion: QuestionType | null;
+  currentQuestion?: QuestionType;
   currentQuestionId: string;
   currentScore: number;
   history: Array<{ questionId: string; score: number }>;
-  selectedAnswerId: string | null;
+  selectedAnswerId?: string;
   isAnswerSelected: boolean;
   questions: Array<QuestionType>;
 };
 
 type Action =
   | { type: "SET_CURRENT_QUESTION"; questionId: string }
-  | { type: "SELECT_ANSWER"; questionId: string | null }
+  | { type: "SELECT_ANSWER"; questionId: string }
   | { type: "HANDLE_NEXT"; selectedAnswerId: string }
   | { type: "HANDLE_BACK" }
   | { type: "RESET" };
 
 const initialState: State = {
-  currentQuestion: null,
+  currentQuestion: undefined,
   currentQuestionId: "",
   currentScore: 0,
   history: [],
-  selectedAnswerId: null,
+  selectedAnswerId: "",
   isAnswerSelected: false,
   questions: []
 };
 
-const reducer = (state: State, action: Action): State => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case "SET_CURRENT_QUESTION":
       return {
         ...state,
         currentQuestionId: action.questionId,
-        currentQuestion:
-          state.questions.find((q) => q.id === action.questionId) || null
+        currentQuestion: state.questions.find((q) => q.id === action.questionId)
       };
     case "SELECT_ANSWER":
       return {
@@ -75,9 +74,8 @@ const reducer = (state: State, action: Action): State => {
         currentScore: newScore,
         history: updatedHistory,
         currentQuestionId: nextQuestionId || "",
-        currentQuestion:
-          state.questions.find((q) => q.id === nextQuestionId) || null,
-        selectedAnswerId: null,
+        currentQuestion: state.questions.find((q) => q.id === nextQuestionId),
+        selectedAnswerId: undefined,
         isAnswerSelected: false
       };
     case "HANDLE_BACK":
@@ -90,11 +88,12 @@ const reducer = (state: State, action: Action): State => {
         return {
           ...state,
           currentQuestionId: previousQuestionId,
-          currentQuestion:
-            state.questions.find((q) => q.id === previousQuestionId) || null,
+          currentQuestion: state.questions.find(
+            (q) => q.id === previousQuestionId
+          ),
           currentScore: newScore,
           history: newHistory,
-          selectedAnswerId: null,
+          selectedAnswerId: undefined,
           isAnswerSelected: false
         };
       } else if (state.history.length === 1) {
@@ -107,7 +106,7 @@ const reducer = (state: State, action: Action): State => {
           ...initialState,
           questions: state.questions,
           currentQuestionId: firstQuestionId,
-          currentQuestion: firstQuestion || null
+          currentQuestion: firstQuestion
         };
       }
       return state;
@@ -116,7 +115,7 @@ const reducer = (state: State, action: Action): State => {
         ...initialState,
         questions: state.questions,
         currentQuestionId: state.questions[0]?.id || "",
-        currentQuestion: state.questions[0] || null
+        currentQuestion: state.questions[0]
       };
     default:
       return state;
@@ -130,7 +129,7 @@ const useQuestionNavigation = (
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     questions,
-    currentQuestion: questions.find((q) => q.id === initialQuestionId) || null,
+    currentQuestion: questions.find((q) => q.id === initialQuestionId),
     currentQuestionId: initialQuestionId
   });
 

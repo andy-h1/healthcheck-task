@@ -1,12 +1,6 @@
-import { QuestionaireProvider } from "./context/QuestionaireContext";
 import { QuestionairePage } from "./routes/QuestionairePage";
 
 const App = () => {
-  return (
-    <QuestionaireProvider>
-      <QuestionairePage />
-    </QuestionaireProvider>
-  );
+  return <QuestionairePage />;
 };
-
 export default App;
