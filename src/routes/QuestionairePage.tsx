@@ -8,9 +8,9 @@ import Questionaire from "../components/Questionaire";
 import Header from "../components/Header";
 
 export const QuestionairePage = (): React.ReactNode => {
-const data = JSONData as QuestionaireType
-const {questions, outcomes} = data;
-const initialQuestionId = questions?.[0]?.id;
+  const data = JSONData as QuestionaireType;
+  const { questions, outcomes } = data;
+  const initialQuestionId = questions?.[0]?.id;
 
   const {
     currentQuestionId,

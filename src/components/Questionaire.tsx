@@ -7,7 +7,7 @@ type QuestionaireProps = {
   isAnswerSelected: boolean;
   onAnswerSelect: (answerId: string) => void;
   onNext: () => void;
-}
+};
 
 const Questionaire = ({
   question,

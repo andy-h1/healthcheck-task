@@ -2,15 +2,15 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 type HeaderProps = {
   findCurrentQuestionIndex: number;
-  allQuestionsAnswered: boolean
+  allQuestionsAnswered: boolean;
   onBack: () => void;
-}
+};
 
 const Header = ({
   findCurrentQuestionIndex,
   allQuestionsAnswered,
   onBack
-} : HeaderProps) => {
+}: HeaderProps) => {
   return (
     <span className="mb-4 flex items-center">
       {findCurrentQuestionIndex > 0 && !allQuestionsAnswered && (

@@ -25,6 +25,7 @@ module.exports = {
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
     "no-prototype-builtins": "off",
-    "prettier/prettier": [ "error", { "endOfLine": "off" } ]
+    "prettier/prettier": [ "error", { "endOfLine": "lf" } ],
+    "no-case-declarations": "off",
   },
 }

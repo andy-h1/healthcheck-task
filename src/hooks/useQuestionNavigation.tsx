@@ -8,14 +8,14 @@ type State = {
   history: { questionId: string; score: number }[];
   selectedAnswerId: string | null;
   isAnswerSelected: boolean;
-  questions:Array<QuestionType>;
+  questions: Array<QuestionType>;
 };
 
 type Action =
   | { type: "SET_CURRENT_QUESTION"; questionId: string }
   | { type: "SELECT_ANSWER"; questionId: string | null }
-  | { type: "HANDLE_NEXT"; selectedAnswerId: string}
-  | { type: "HANDLE_BACK"}
+  | { type: "HANDLE_NEXT"; selectedAnswerId: string }
+  | { type: "HANDLE_BACK" }
   | { type: "RESET" };
 
 const initialState: State = {
@@ -44,28 +44,41 @@ const reducer = (state: State, action: Action): State => {
         isAnswerSelected: true
       };
     case "HANDLE_NEXT":
-      // 
       const selectedAnswer = state.currentQuestion?.answers.find(
         (answer) => answer.id === action.selectedAnswerId
       );
       const scoreIncrement = selectedAnswer ? selectedAnswer.score : 0;
       const newScore = state.currentScore + scoreIncrement;
-      const nextQuestionId = state.currentQuestion?.next.find(
-        (step) => step.answered === action.selectedAnswerId
-      )?.next_question || state.currentQuestion?.next.find((step) => step.next_question)?.next_question;
-      const updatedHistory = state.history.some((entry) => entry.questionId === state.currentQuestionId)
-      ? state.history.map((entry) => 
-          entry.questionId === state.currentQuestionId ? { ...entry, score: scoreIncrement } : entry)
-      : [...state.history, { questionId: state.currentQuestionId, score: scoreIncrement }];
+
+      const nextQuestionId =
+        state.currentQuestion?.next.find(
+          (step) => step.answered === action.selectedAnswerId
+        )?.next_question ||
+        state.currentQuestion?.next.find((step) => step.next_question)
+          ?.next_question;
+
+      const updatedHistory = state.history.some(
+        (entry) => entry.questionId === state.currentQuestionId
+      )
+        ? state.history.map((entry) =>
+            entry.questionId === state.currentQuestionId
+              ? { ...entry, score: scoreIncrement }
+              : entry
+          )
+        : [
+            ...state.history,
+            { questionId: state.currentQuestionId, score: scoreIncrement }
+          ];
 
       return {
         ...state,
         currentScore: newScore,
         history: updatedHistory,
         currentQuestionId: nextQuestionId || "",
-        currentQuestion: state.questions.find((q) => q.id === nextQuestionId) || null,
+        currentQuestion:
+          state.questions.find((q) => q.id === nextQuestionId) || null,
         selectedAnswerId: null,
-        isAnswerSelected: false,
+        isAnswerSelected: false
       };
     case "HANDLE_BACK":
       if (state.history.length > 1) {
@@ -73,28 +86,31 @@ const reducer = (state: State, action: Action): State => {
         const previousQuestionId = previousHistoryEntry.questionId;
         const newHistory = state.history.slice(0, -1);
         const newScore = state.currentScore - previousHistoryEntry.score;
-    
+
         return {
           ...state,
           currentQuestionId: previousQuestionId,
-          currentQuestion: state.questions.find(q => q.id === previousQuestionId) || null,
+          currentQuestion:
+            state.questions.find((q) => q.id === previousQuestionId) || null,
           currentScore: newScore,
           history: newHistory,
           selectedAnswerId: null,
-          isAnswerSelected: false,
+          isAnswerSelected: false
         };
       } else if (state.history.length === 1) {
         const firstQuestionId = state.questions[0]?.id || "";
-        const firstQuestion = state.questions.find(q => q.id === firstQuestionId);
-    
+        const firstQuestion = state.questions.find(
+          (q) => q.id === firstQuestionId
+        );
+
         return {
           ...initialState,
           questions: state.questions,
           currentQuestionId: firstQuestionId,
-          currentQuestion: firstQuestion || null,
+          currentQuestion: firstQuestion || null
         };
       }
-      return state;    
+      return state;
     case "RESET":
       return {
         ...initialState,
@@ -124,7 +140,10 @@ const useQuestionNavigation = (
 
   const handleNextClick = () => {
     if (state.isAnswerSelected && state.selectedAnswerId) {
-      dispatch({ type: "HANDLE_NEXT", selectedAnswerId: state.selectedAnswerId });
+      dispatch({
+        type: "HANDLE_NEXT",
+        selectedAnswerId: state.selectedAnswerId
+      });
     }
   };
 
@@ -136,7 +155,12 @@ const useQuestionNavigation = (
     dispatch({ type: "RESET" });
   };
 
-  console.log(state.currentQuestionId, state.currentScore, state.selectedAnswerId, state.history)
+  console.log(
+    state.currentQuestionId,
+    state.currentScore,
+    state.selectedAnswerId,
+    state.history
+  );
 
   return {
     ...state,
