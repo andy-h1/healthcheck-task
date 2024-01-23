@@ -5,7 +5,7 @@ type State = {
   currentQuestion: QuestionType | null;
   currentQuestionId: string;
   currentScore: number;
-  history: { questionId: string; score: number }[];
+  history: Array<{ questionId: string; score: number }>;
   selectedAnswerId: string | null;
   isAnswerSelected: boolean;
   questions: Array<QuestionType>;
@@ -124,7 +124,7 @@ const reducer = (state: State, action: Action): State => {
 };
 
 const useQuestionNavigation = (
-  questions: QuestionType[],
+  questions: Array<QuestionType>,
   initialQuestionId: string
 ) => {
   const [state, dispatch] = useReducer(reducer, {
