@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`QuestionairePage > it should render 1`] = `
+<div
+  class="flex h-screen w-screen items-center justify-center md:bg-teal-300"
+>
+  <div
+    class="flex h-dvh w-full max-w-screen-sm flex-col items-center justify-between bg-white px-4 py-4 md:h-4/5 md:rounded-md md:border md:border-gray-300 "
+  >
+    <div
+      class="w-full"
+    >
+      <span
+        class="mb-4 flex items-center"
+      >
+        <h1
+          class="grow text-center"
+        >
+          Heartburn Checker
+        </h1>
+      </span>
+      <div
+        class="overflow-hidden rounded-xl bg-gray-200"
+      >
+        <div
+          class="relative flex h-0.5 items-center justify-center"
+        >
+          <div
+            class="absolute bottom-0 left-0 top-0 rounded-lg bg-teal-400"
+            style="width: -11%;"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      class="flex h-2/3 w-full flex-col items-center justify-between px-3 "
+    >
+      <div>
+        <h1
+          class="text-2xl font-extrabold text-gray-600"
+        >
+          Question 1?
+        </h1>
+        <span
+          class="my-10 flex justify-center"
+        >
+          <button
+            class="mx-3 inline-flex w-1/2 items-center justify-center rounded-full px-8 py-4 text-sm font-bold shadow-sm ring-1 ring-inset ring-gray-300
+                        bg-white text-teal-400"
+          >
+            Yes
+          </button>
+          <button
+            class="mx-3 inline-flex w-1/2 items-center justify-center rounded-full px-8 py-4 text-sm font-bold shadow-sm ring-1 ring-inset ring-gray-300
+                        bg-white text-teal-400"
+          >
+            No
+          </button>
+        </span>
+      </div>
+      <button
+        class="my-4 inline-flex w-full items-center justify-center  bg-gray-300 rounded px-4 py-2 font-bold text-white"
+        disabled=""
+      >
+        Next
+        <svg
+          aria-hidden="true"
+          class="h-5 w-5"
+          data-slot="icon"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z"
+            fill-rule="evenodd"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+`;

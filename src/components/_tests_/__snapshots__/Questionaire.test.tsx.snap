@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Questionaire component > it should render 1`] = `
+<div
+  class="flex h-2/3 w-full flex-col items-center justify-between px-3 "
+>
+  <div>
+    <h1
+      class="text-2xl font-extrabold text-gray-600"
+    >
+      Have you received any treatment for heartburn previously?
+    </h1>
+    <span
+      class="my-10 flex justify-center"
+    >
+      <button
+        class="mx-3 inline-flex w-1/2 items-center justify-center rounded-full px-8 py-4 text-sm font-bold shadow-sm ring-1 ring-inset ring-gray-300
+                        bg-white text-teal-400"
+      >
+        Yes
+      </button>
+      <button
+        class="mx-3 inline-flex w-1/2 items-center justify-center rounded-full px-8 py-4 text-sm font-bold shadow-sm ring-1 ring-inset ring-gray-300
+                        bg-white text-teal-400"
+      >
+        No
+      </button>
+    </span>
+  </div>
+  <button
+    class="my-4 inline-flex w-full items-center justify-center  bg-gray-300 rounded px-4 py-2 font-bold text-white"
+    disabled=""
+  >
+    Next
+    <svg
+      aria-hidden="true"
+      class="h-5 w-5"
+      data-slot="icon"
+      fill="currentColor"
+      viewBox="0 0 16 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clip-rule="evenodd"
+        d="M6.22 4.22a.75.75 0 0 1 1.06 0l3.25 3.25a.75.75 0 0 1 0 1.06l-3.25 3.25a.75.75 0 0 1-1.06-1.06L8.94 8 6.22 5.28a.75.75 0 0 1 0-1.06Z"
+        fill-rule="evenodd"
+      />
+    </svg>
+  </button>
+</div>
+`;

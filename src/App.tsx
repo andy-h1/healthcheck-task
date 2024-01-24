@@ -1,4 +1,4 @@
-import { QuestionairePage } from "./routes/QuestionairePage";
+import QuestionairePage from "./routes/QuestionairePage";
 
 const App = () => {
   return <QuestionairePage />;

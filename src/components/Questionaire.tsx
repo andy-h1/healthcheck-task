@@ -16,6 +16,7 @@ const Questionaire = ({
   onAnswerSelect,
   onNext
 }: QuestionaireProps) => {
+  // console.log({ question, selectedAnswerId, isAnswerSelected });
   return (
     <div className="flex h-2/3 w-full flex-col items-center justify-between px-3 ">
       <div>
