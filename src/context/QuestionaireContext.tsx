@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useReducer,
-  useContext
-} from "react";
+import { createContext, useEffect, useReducer, useContext } from "react";
 import {
   OutcomeType,
   QuestionaireType,
@@ -23,6 +17,11 @@ type State = {
 };
 
 type Action =
+  | {
+      type: "SET_DATA";
+      questions: Array<QuestionType>;
+      outcomes: Array<OutcomeType>;
+    }
   | { type: "SET_CURRENT_QUESTION"; questionId: string }
   | { type: "SELECT_ANSWER"; questionId: string }
   | { type: "HANDLE_NEXT"; selectedAnswerId: string }
@@ -65,6 +64,12 @@ export const useQuestionaireDispatch = () => {
 
 const questionaireReducer = (state: State, action: Action) => {
   switch (action.type) {
+    case "SET_DATA":
+      return {
+        ...state,
+        questions: action.questions,
+        outcomes: action.outcomes
+      };
     case "SET_CURRENT_QUESTION":
       return {
         ...state,
@@ -162,11 +167,9 @@ export const QuestionaireProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [questions, setQuestions] = useState();
-  const [outcomes, setOutcomes] = useState();
   const [state, dispatch] = useReducer(questionaireReducer, initialState);
 
-  console.log({ questions, outcomes });
+  console.log({ state });
 
   useEffect(() => {
     fetch("/data/questionaire.json?url")
@@ -181,8 +184,11 @@ export const QuestionaireProvider = ({
           throw new Error("No data found!");
         }
         const { questions, outcomes } = data;
-        setQuestions(questions);
-        setOutcomes(outcomes);
+        dispatch({
+          type: "SET_DATA",
+          questions: questions,
+          outcomes: outcomes
+        });
       })
       .catch((error) => {
         console.error("Error:", error.message);
