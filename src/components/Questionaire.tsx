@@ -1,5 +1,9 @@
 import { QuestionType } from "../types/questionaire";
 import { ChevronRightIcon } from "@heroicons/react/16/solid";
+import {
+  useQuestionaireContext,
+  useQuestionaireDispatch
+} from "../context/QuestionaireContext";
 
 type QuestionaireProps = {
   question: QuestionType;
@@ -16,6 +20,8 @@ const Questionaire = ({
   onAnswerSelect,
   onNext
 }: QuestionaireProps) => {
+  const questions = useQuestionaireContext();
+
   return (
     <div className="flex h-2/3 w-full flex-col items-center justify-between px-3 ">
       <div>

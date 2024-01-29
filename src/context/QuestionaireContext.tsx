@@ -1,7 +1,15 @@
-import { createContext, useState, useEffect, useReducer } from "react";
-import { QuestionaireType, QuestionType } from "../types/questionaire";
-export const QuestionaireContext = createContext<QuestionaireType | null>(null);
-export const QuestionaireDispatchContext = createContext(null);
+import {
+  createContext,
+  useState,
+  useEffect,
+  useReducer,
+  useContext
+} from "react";
+import {
+  OutcomeType,
+  QuestionaireType,
+  QuestionType
+} from "../types/questionaire";
 
 type State = {
   currentQuestion?: QuestionType;
@@ -11,6 +19,7 @@ type State = {
   selectedAnswerId?: string;
   isAnswerSelected: boolean;
   questions: Array<QuestionType>;
+  outcomes: Array<OutcomeType>;
 };
 
 type Action =
@@ -27,10 +36,34 @@ const initialState: State = {
   history: [],
   selectedAnswerId: "",
   isAnswerSelected: false,
-  questions: []
+  questions: [],
+  outcomes: []
 };
 
-const reducer = (state: State, action: Action) => {
+const QuestionaireContext = createContext<QuestionaireType | null>(null);
+const QuestionaireDispatchContext = createContext<Action | null>(null);
+
+export const useQuestionaireContext = () => {
+  const context = useContext(QuestionaireContext);
+  if (!context) {
+    throw new Error(
+      "useQuestionaireContext must be used within a QuestionaireProvider"
+    );
+  }
+  return context;
+};
+
+export const useQuestionaireDispatch = () => {
+  const context = useContext(QuestionaireDispatchContext);
+  if (!context) {
+    throw new Error(
+      "useQuestionaireDispatch must be used within a QuestionaireProvider"
+    );
+  }
+  return context;
+};
+
+const questionaireReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "SET_CURRENT_QUESTION":
       return {
@@ -129,25 +162,38 @@ export const QuestionaireProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
-    questions,
-    currentQuestion: questions.find((q) => q.id === initialQuestionId),
-    currentQuestionId: initialQuestionId
-  });
-  const [questionData, setQuestionData] = useState<QuestionaireType | null>(
-    null
-  );
+  const [questions, setQuestions] = useState();
+  const [outcomes, setOutcomes] = useState();
+  const [state, dispatch] = useReducer(questionaireReducer, initialState);
+
+  console.log({ questions, outcomes });
 
   useEffect(() => {
     fetch("/data/questionaire.json?url")
-      .then((response) => response.json())
-      .then((data) => setQuestionData(data));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Issue with response: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data) {
+          throw new Error("No data found!");
+        }
+        const { questions, outcomes } = data;
+        setQuestions(questions);
+        setOutcomes(outcomes);
+      })
+      .catch((error) => {
+        console.error("Error:", error.message);
+      });
   }, []);
 
   return (
-    <QuestionaireContext.Provider value={questionData}>
-      {children}
+    <QuestionaireContext.Provider value={state}>
+      <QuestionaireDispatchContext.Provider value={dispatch}>
+        {children}
+      </QuestionaireDispatchContext.Provider>
     </QuestionaireContext.Provider>
   );
 };

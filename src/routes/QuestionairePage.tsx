@@ -6,16 +6,11 @@ import ProgressBar from "../components/ProgressBar";
 import Summary from "../components/Summary";
 import Questionaire from "../components/Questionaire";
 import Header from "../components/Header";
-import { useContext } from "react";
-import { QuestionaireContext } from "../context/QuestionaireContext";
 
 const QuestionairePage = (): React.ReactNode => {
   const data = JSONData as QuestionaireType;
   const { questions, outcomes } = data;
   const initialQuestionId = questions?.[0]?.id;
-  const context = useContext(QuestionaireContext);
-
-  console.log({ context });
 
   const {
     currentQuestionId,
