@@ -14,22 +14,26 @@ type QuestionaireProps = {
 };
 
 const Questionaire = ({
-  question,
-  selectedAnswerId,
-  isAnswerSelected,
+  // question,
+  // selectedAnswerId,
+  // isAnswerSelected,
   onAnswerSelect,
   onNext
 }: QuestionaireProps) => {
-  const questions = useQuestionaireContext();
+  const context = useQuestionaireContext();
+  const dispatch = useQuestionaireDispatch();
+
+  const { currentQuestion, selectedAnswerId, isAnswerSelected } = context;
+  console.log(currentQuestion, selectedAnswerId, isAnswerSelected);
 
   return (
     <div className="flex h-2/3 w-full flex-col items-center justify-between px-3 ">
       <div>
         <h1 className="text-2xl font-extrabold text-gray-600">
-          {question.question_text}
+          {currentQuestion?.question_text}
         </h1>
         <span className="my-10 flex justify-center">
-          {question.answers.map((answer) => (
+          {currentQuestion?.answers.map((answer) => (
             <button
               key={answer.id}
               onClick={() => onAnswerSelect(answer.id)}

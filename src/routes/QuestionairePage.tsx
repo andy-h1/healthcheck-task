@@ -1,23 +1,26 @@
-import JSONData from "../data/questionaire.json";
 import useQuestionNavigation from "../hooks/useQuestionNavigation";
 import useCalculateOutcome from "../hooks/useCalculateOutcome";
-import { QuestionaireType } from "../types/questionaire";
 import ProgressBar from "../components/ProgressBar";
 import Summary from "../components/Summary";
 import Questionaire from "../components/Questionaire";
 import Header from "../components/Header";
+import { useQuestionaireContext } from "../context/QuestionaireContext";
 
 const QuestionairePage = (): React.ReactNode => {
-  const data = JSONData as QuestionaireType;
-  const { questions, outcomes } = data;
+  const heartBurnData = useQuestionaireContext();
+  const {
+    currentQuestion,
+    currentScore,
+    currentQuestionId,
+    selectedAnswerId,
+    isAnswerSelected,
+    questions,
+    outcomes
+  } = heartBurnData;
+  console.log(heartBurnData);
   const initialQuestionId = questions?.[0]?.id;
 
   const {
-    currentQuestionId,
-    currentScore,
-    selectedAnswerId,
-    isAnswerSelected,
-    currentQuestion,
     handleBackClick,
     handleNextClick,
     handleSelectAnswerClick,

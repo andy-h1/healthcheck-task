@@ -1,9 +1,14 @@
-import { createContext, useEffect, useReducer, useContext } from "react";
+/* eslint-disable react-refresh/only-export-components */
 import {
-  OutcomeType,
-  QuestionaireType,
-  QuestionType
-} from "../types/questionaire";
+  createContext,
+  useEffect,
+  useReducer,
+  useContext,
+  Dispatch
+} from "react";
+import { OutcomeType, QuestionType } from "../types/questionaire";
+
+type QuestionaireDispatch = Dispatch<Action>;
 
 type State = {
   currentQuestion?: QuestionType;
@@ -39,8 +44,10 @@ const initialState: State = {
   outcomes: []
 };
 
-const QuestionaireContext = createContext<QuestionaireType | null>(null);
-const QuestionaireDispatchContext = createContext<Action | null>(null);
+const QuestionaireContext = createContext<State | null>(null);
+const QuestionaireDispatchContext = createContext<QuestionaireDispatch | null>(
+  null
+);
 
 export const useQuestionaireContext = () => {
   const context = useContext(QuestionaireContext);
@@ -67,6 +74,8 @@ const questionaireReducer = (state: State, action: Action) => {
     case "SET_DATA":
       return {
         ...state,
+        currentQuestion: action.questions?.[0],
+        currentQuestionId: action.questions?.[0].id,
         questions: action.questions,
         outcomes: action.outcomes
       };
