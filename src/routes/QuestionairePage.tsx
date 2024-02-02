@@ -12,20 +12,16 @@ const QuestionairePage = (): React.ReactNode => {
     currentQuestion,
     currentScore,
     currentQuestionId,
-    selectedAnswerId,
-    isAnswerSelected,
     questions,
     outcomes
   } = heartBurnData;
   console.log(heartBurnData);
   const initialQuestionId = questions?.[0]?.id;
 
-  const {
-    handleBackClick,
-    handleNextClick,
-    handleSelectAnswerClick,
-    handleRestart
-  } = useQuestionNavigation(questions, initialQuestionId);
+  const { handleBackClick } = useQuestionNavigation(
+    questions,
+    initialQuestionId
+  );
 
   const outcome = useCalculateOutcome(questions, currentScore, outcomes);
 
@@ -47,24 +43,13 @@ const QuestionairePage = (): React.ReactNode => {
           <Header
             findCurrentQuestionIndex={findCurrentQuestionIndex}
             allQuestionsAnswered={allQuestionsAnswered}
-            onBack={handleBackClick}
           />
           <ProgressBar progress={progress} />
         </div>
 
-        {!allQuestionsAnswered && currentQuestion && (
-          <Questionaire
-            question={currentQuestion}
-            selectedAnswerId={selectedAnswerId}
-            isAnswerSelected={isAnswerSelected}
-            onAnswerSelect={handleSelectAnswerClick}
-            onNext={handleNextClick}
-          />
-        )}
+        {!allQuestionsAnswered && currentQuestion && <Questionaire />}
 
-        {allQuestionsAnswered && outcome && (
-          <Summary outcome={outcome} onRestart={handleRestart} />
-        )}
+        {allQuestionsAnswered && outcome && <Summary outcome={outcome} />}
       </div>
     </div>
   );

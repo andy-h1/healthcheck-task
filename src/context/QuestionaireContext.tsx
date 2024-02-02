@@ -28,6 +28,7 @@ type Action =
       outcomes: Array<OutcomeType>;
     }
   | { type: "SET_CURRENT_QUESTION"; questionId: string }
+  // TODO: not sure questionId is needed for select answer - just to change isAnswerSelected to true
   | { type: "SELECT_ANSWER"; questionId: string }
   | { type: "HANDLE_NEXT"; selectedAnswerId: string }
   | { type: "HANDLE_BACK" }

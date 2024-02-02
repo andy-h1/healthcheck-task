@@ -1,11 +1,17 @@
+import { useQuestionaireDispatch } from "../context/QuestionaireContext";
 import { OutcomeType } from "../types/questionaire";
 
 interface SummaryProps {
   outcome: OutcomeType;
-  onRestart: () => void;
 }
 
-const Summary: React.FC<SummaryProps> = ({ outcome, onRestart }) => {
+const Summary: React.FC<SummaryProps> = ({ outcome }) => {
+  const dispatch = useQuestionaireDispatch();
+
+  const handleRestart = () => {
+    dispatch({ type: "RESET" });
+  };
+
   return (
     <div className="mt-10 flex h-full flex-col items-center justify-between">
       <div>
@@ -22,7 +28,7 @@ const Summary: React.FC<SummaryProps> = ({ outcome, onRestart }) => {
       </button>
 
       <span>
-        <button className="text-teal-400" onClick={onRestart}>
+        <button className="text-teal-400" onClick={handleRestart}>
           Back to the start screen
         </button>
       </span>
