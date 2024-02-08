@@ -1,5 +1,3 @@
-import useQuestionNavigation from "../hooks/useQuestionNavigation";
-import useCalculateOutcome from "../hooks/useCalculateOutcome";
 import ProgressBar from "../components/ProgressBar";
 import Summary from "../components/Summary";
 import Questionaire from "../components/Questionaire";
@@ -8,22 +6,7 @@ import { useQuestionaireContext } from "../context/QuestionaireContext";
 
 const QuestionairePage = (): React.ReactNode => {
   const heartBurnData = useQuestionaireContext();
-  const {
-    currentQuestion,
-    currentScore,
-    currentQuestionId,
-    questions,
-    outcomes
-  } = heartBurnData;
-  console.log(heartBurnData);
-  const initialQuestionId = questions?.[0]?.id;
-
-  const { handleBackClick } = useQuestionNavigation(
-    questions,
-    initialQuestionId
-  );
-
-  const outcome = useCalculateOutcome(questions, currentScore, outcomes);
+  const { currentQuestion, currentQuestionId, questions } = heartBurnData;
 
   const findCurrentQuestionIndex = questions.findIndex(
     (q) => q.id === currentQuestionId
@@ -49,7 +32,7 @@ const QuestionairePage = (): React.ReactNode => {
 
         {!allQuestionsAnswered && currentQuestion && <Questionaire />}
 
-        {allQuestionsAnswered && outcome && <Summary outcome={outcome} />}
+        {allQuestionsAnswered && <Summary />}
       </div>
     </div>
   );

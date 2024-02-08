@@ -179,8 +179,6 @@ export const QuestionaireProvider = ({
 }) => {
   const [state, dispatch] = useReducer(questionaireReducer, initialState);
 
-  console.log({ state });
-
   useEffect(() => {
     fetch("/data/questionaire.json?url")
       .then((response) => {

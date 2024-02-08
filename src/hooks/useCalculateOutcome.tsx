@@ -9,6 +9,7 @@ const useCalculateOutcome = (
   const [outcome, setOutcome] = useState<OutcomeType | null>(null);
 
   useEffect(() => {
+    console.log("useCalculateOutcome called");
     if (questions.length === 0) return;
 
     // Assumption that next.outcomes will always exist in the last question object
