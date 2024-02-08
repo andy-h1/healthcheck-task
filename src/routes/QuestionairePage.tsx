@@ -1,30 +1,12 @@
-import JSONData from "../data/questionaire.json";
-import useQuestionNavigation from "../hooks/useQuestionNavigation";
-import useCalculateOutcome from "../hooks/useCalculateOutcome";
-import { QuestionaireType } from "../types/questionaire";
 import ProgressBar from "../components/ProgressBar";
 import Summary from "../components/Summary";
 import Questionaire from "../components/Questionaire";
 import Header from "../components/Header";
+import { useQuestionaireContext } from "../context/QuestionaireContext";
 
 const QuestionairePage = (): React.ReactNode => {
-  const data = JSONData as QuestionaireType;
-  const { questions, outcomes } = data;
-  const initialQuestionId = questions?.[0]?.id;
-
-  const {
-    currentQuestionId,
-    currentScore,
-    selectedAnswerId,
-    isAnswerSelected,
-    currentQuestion,
-    handleBackClick,
-    handleNextClick,
-    handleSelectAnswerClick,
-    handleRestart
-  } = useQuestionNavigation(questions, initialQuestionId);
-
-  const outcome = useCalculateOutcome(questions, currentScore, outcomes);
+  const heartBurnData = useQuestionaireContext();
+  const { currentQuestion, currentQuestionId, questions } = heartBurnData;
 
   const findCurrentQuestionIndex = questions.findIndex(
     (q) => q.id === currentQuestionId
@@ -44,24 +26,13 @@ const QuestionairePage = (): React.ReactNode => {
           <Header
             findCurrentQuestionIndex={findCurrentQuestionIndex}
             allQuestionsAnswered={allQuestionsAnswered}
-            onBack={handleBackClick}
           />
           <ProgressBar progress={progress} />
         </div>
 
-        {!allQuestionsAnswered && currentQuestion && (
-          <Questionaire
-            question={currentQuestion}
-            selectedAnswerId={selectedAnswerId}
-            isAnswerSelected={isAnswerSelected}
-            onAnswerSelect={handleSelectAnswerClick}
-            onNext={handleNextClick}
-          />
-        )}
+        {!allQuestionsAnswered && currentQuestion && <Questionaire />}
 
-        {allQuestionsAnswered && outcome && (
-          <Summary outcome={outcome} onRestart={handleRestart} />
-        )}
+        {allQuestionsAnswered && <Summary />}
       </div>
     </div>
   );
