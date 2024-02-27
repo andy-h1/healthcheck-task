@@ -4,14 +4,6 @@ import {
   useQuestionaireDispatch
 } from "../context/QuestionaireContext";
 
-// type QuestionaireProps = {
-//   question: QuestionType;
-//   selectedAnswerId?: string;
-//   isAnswerSelected: boolean;
-//   onAnswerSelect: (answerId: string) => void;
-//   onNext: () => void;
-// };
-
 const Questionaire = () => {
   const context = useQuestionaireContext();
   const dispatch = useQuestionaireDispatch();
