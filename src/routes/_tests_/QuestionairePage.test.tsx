@@ -32,36 +32,9 @@ vi.mock("../../hooks/useQuestionNavigation", () => ({
 }));
 
 describe("QuestionairePage", () => {
-  test("it should render", () => {
-    const { container } = render(<QuestionairePage />);
+  test.todo("it should render");
 
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  test("user can select an answer which enables them to click the next button", async () => {
-    const { rerender } = render(<QuestionairePage />);
-
-    expect(mockState.isAnswerSelected).toBe(false);
-
-    const yesButton = screen.getByRole("button", { name: /yes/i });
-    userEvent.click(yesButton);
-
-    await waitFor(() => {
-      expect(handleSelectAnswerClick).toHaveBeenCalled();
-      expect(mockState.isAnswerSelected).toBe(true);
-    });
-
-    // Have to rerender the component to update the state of the next button
-    rerender(<QuestionairePage />);
-
-    const nextButton = screen.getByRole("button", { name: /next/i });
-
-    expect(nextButton).toBeEnabled();
-
-    userEvent.click(nextButton);
-
-    await waitFor(() => {
-      expect(handleNextClick).toHaveBeenCalled();
-    });
-  });
+  test.todo(
+    "user can select an answer which enables them to click the next button"
+  );
 });

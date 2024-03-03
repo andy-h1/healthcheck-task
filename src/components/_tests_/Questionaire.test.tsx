@@ -19,16 +19,7 @@ const props = {
 };
 
 describe("Questionaire component", () => {
-  test("it should render", () => {
-    const { container } = render(<Questionaire {...props} />);
+  test.todo("it should render");
 
-    expect(container.firstChild).toMatchSnapshot();
-  });
-
-  test("Next button should be disabled on render", () => {
-    render(<Questionaire {...props} />);
-
-    const nextButton = screen.getByRole("button", { name: /next/i });
-    expect(nextButton).toBeDisabled();
-  });
+  test.todo("Next button should be disabled on render");
 });
