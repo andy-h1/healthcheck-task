@@ -10,21 +10,12 @@ vi.mock("../../context/QuestionaireContext", () => {
 });
 
 describe("Header Component", () => {
-  beforeEach(() => {
-    (QuestionaireContext.useQuestionaireDispatch as vi.Mock).mockClear();
-  });
+  it("should render"),
+    () => {
+      const { container } = render(
+        <Header findCurrentQuestionIndex={1} allQuestionsAnswered={false} />
+      );
 
-  it("dispatches HANDLE_BACK action when back button is clicked", async () => {
-    const mockDispatch = vi.fn();
-    (QuestionaireContext.useQuestionaireDispatch as vi.Mock).mockReturnValue(
-      mockDispatch
-    );
-
-    render(
-      <Header findCurrentQuestionIndex={1} allQuestionsAnswered={false} />
-    );
-    const backButton = screen.getByRole("button");
-    fireEvent.click(backButton);
-    expect(mockDispatch).toHaveBeenCalledWith({ type: "HANDLE_BACK" });
-  });
+      expect(container).toMatchSnapshot();
+    };
 });

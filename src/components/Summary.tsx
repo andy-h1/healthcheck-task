@@ -11,12 +11,11 @@ const Summary: React.FC = () => {
   const dispatch = useQuestionaireDispatch();
   const { questions, currentScore, outcomes } = context;
 
-  console.log(outcome);
-
   const handleRestart = () => {
     dispatch({ type: "RESET" });
   };
 
+  //TODO: do I need to use a useEffect? Is there a better way of approaching this?
   useEffect(() => {
     console.log("useCalculateOutcome called");
     if (questions.length === 0) return;
